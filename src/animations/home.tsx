@@ -26,9 +26,16 @@ export const Home = () => {
             <h2 className="text-xl font-semibold mb-3 text-gray-800">
               Email Client
             </h2>
-            <p className="text-gray-600">
-              Interactive email client component
-            </p>
+            <p className="text-gray-600">Interactive email client component</p>
+          </Link>
+          <Link
+            to="/books"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer block"
+          >
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              Book Library
+            </h2>
+            <p className="text-gray-600">Interactive book library component</p>
           </Link>
         </div>
       </div>
