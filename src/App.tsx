@@ -12,7 +12,7 @@ const tailwindColors = {
   white: getCssVarAsHex("--color-white"),
   slate200: getCssVarAsHex("--color-slate-200"),
   slate400: getCssVarAsHex("--color-slate-400"),
-}
+};
 
 function App() {
   const [step, setStep] = useState(1);
@@ -88,7 +88,7 @@ function Step({ step, currentStep }: { step: number; currentStep: number }) {
         },
       }}
       // used for debugging the animations
-      // transition={{ duration: 1 }}
+      transition={{ duration: 0.2 }}
       className="flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
     >
       <div className="flex items-center justify-center">
@@ -111,7 +111,19 @@ function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       strokeWidth={3}
     >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      <motion.path
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          delay: 0.2,
+          type: "tween",
+          ease: "easeOut",
+          duration: 0.3,
+        }}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 13l4 4L19 7"
+      />
     </svg>
   );
 }
