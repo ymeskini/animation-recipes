@@ -2,14 +2,6 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-function VisuallyHidden({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="sr-only">
-      {children}
-    </span>
-  );
-}
-
 type BookSelection = Book & { selected?: boolean };
 
 function BookPage() {
@@ -89,7 +81,9 @@ function ReadingList({
   return (
     <>
       <div className="w-[200px] p-4 bg-gray-950 text-white">
-        <h2 className="mb-4 pb-2 text-center border-b-4 border-dotted border-gray-600 animate-[fadeIn_500ms_both] delay-200">Reading List</h2>
+        <h2 className="mb-4 pb-2 text-center border-b-4 border-dotted border-gray-600 animate-[fadeIn_500ms_both] delay-200">
+          Reading List
+        </h2>
         <ol>
           {books.map((book) => {
             return (
@@ -117,7 +111,7 @@ function ReadingList({
                   }}
                 >
                   <XMarkIcon />
-                  <VisuallyHidden>Remove {book.name}</VisuallyHidden>
+                  <span className="sr-only">Remove {book.name}</span>
                 </motion.button>
               </li>
             );
