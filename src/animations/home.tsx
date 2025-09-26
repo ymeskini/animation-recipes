@@ -1,5 +1,33 @@
 import { Link } from "react-router";
 
+const routes = [
+  {
+    to: "/stepper",
+    title: "Stepper",
+    description: "Interactive step-by-step animation component",
+  },
+  {
+    to: "/email",
+    title: "Email Client",
+    description: "Interactive email client component",
+  },
+  {
+    to: "/books",
+    title: "Book Library",
+    description: "Interactive book library component",
+  },
+  {
+    to: "/header",
+    title: "Header",
+    description: "Interactive header component",
+  },
+  {
+    to: "/carousel",
+    title: "Carousel",
+    description: "Interactive carousel component",
+  },
+];
+
 export const Home = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -8,35 +36,18 @@ export const Home = () => {
           Animation Recipes
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link
-            to="/stepper"
-            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer block"
-          >
-            <h2 className="text-xl font-semibold mb-3 text-gray-800">
-              Stepper
-            </h2>
-            <p className="text-gray-600">
-              Interactive step-by-step animation component
-            </p>
-          </Link>
-          <Link
-            to="/email"
-            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer block"
-          >
-            <h2 className="text-xl font-semibold mb-3 text-gray-800">
-              Email Client
-            </h2>
-            <p className="text-gray-600">Interactive email client component</p>
-          </Link>
-          <Link
-            to="/books"
-            className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer block"
-          >
-            <h2 className="text-xl font-semibold mb-3 text-gray-800">
-              Book Library
-            </h2>
-            <p className="text-gray-600">Interactive book library component</p>
-          </Link>
+          {routes.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer block"
+            >
+              <h2 className="text-xl font-semibold mb-3 text-gray-800">
+                {link.title}
+              </h2>
+              <p className="text-gray-600">{link.description}</p>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
