@@ -1,4 +1,18 @@
 import { useState } from "react";
+import { motion } from "motion/react";
+import chroma from "chroma-js";
+
+function getCssVarAsHex(cssVar: string): string {
+  const styles = getComputedStyle(document.documentElement);
+  return chroma(styles.getPropertyValue(cssVar)).hex();
+}
+
+const tailwindColors = {
+  blue500: getCssVarAsHex("--color-blue-500"),
+  white: getCssVarAsHex("--color-white"),
+  slate200: getCssVarAsHex("--color-slate-200"),
+  slate400: getCssVarAsHex("--color-slate-400"),
+}
 
 function App() {
   const [step, setStep] = useState(1);
@@ -53,14 +67,29 @@ function Step({ step, currentStep }: { step: number; currentStep: number }) {
       : "complete";
 
   return (
-    <div
-      className={`${
-        status === "active"
-          ? "border-blue-500 bg-white text-blue-500"
-          : status === "complete"
-          ? "border-blue-500 bg-blue-500"
-          : "border-slate-200 bg-white text-slate-400"
-      } flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold`}
+    <motion.div
+      initial={false}
+      animate={status}
+      variants={{
+        inactive: {
+          backgroundColor: tailwindColors.white,
+          borderColor: tailwindColors.slate200,
+          color: tailwindColors.slate400,
+        },
+        active: {
+          backgroundColor: tailwindColors.white,
+          borderColor: tailwindColors.blue500,
+          color: tailwindColors.blue500,
+        },
+        complete: {
+          backgroundColor: tailwindColors.blue500,
+          borderColor: tailwindColors.blue500,
+          color: tailwindColors.blue500,
+        },
+      }}
+      // used for debugging the animations
+      // transition={{ duration: 1 }}
+      className="flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
     >
       <div className="flex items-center justify-center">
         {status === "complete" ? (
@@ -69,7 +98,7 @@ function Step({ step, currentStep }: { step: number; currentStep: number }) {
           <span>{step}</span>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
