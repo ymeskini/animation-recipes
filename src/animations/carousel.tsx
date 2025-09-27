@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useState } from "react";
+import { useKey } from "react-use";
 
 const images = [
   "/images/carousel/1.jpeg",
@@ -55,6 +56,28 @@ const ButtonControls = ({
 export function Carousel() {
   const [index, setIndex] = useState(0);
 
+  useKey(
+    "ArrowRight",
+    () => {
+      if (index < images.length - 1) {
+        setIndex((index) => index + 1);
+      }
+    },
+    {},
+    [index]
+  );
+
+  useKey(
+    "ArrowLeft",
+    () => {
+      if (index > 0) {
+        setIndex((index) => index - 1);
+      }
+    },
+    {},
+    [index]
+  );
+
   return (
     // ease in a bezier curve found from open source
     // trying to mimic apple
@@ -80,7 +103,7 @@ export function Carousel() {
           <div className="flex right-0 left-0 h-14 absolute bottom-6 justify-center inset-x-0 overflow-hidden w-full">
             <motion.div
               animate={{
-                x: `-${index * 100}%`,
+                x: `-${index * 100 + 12}%`,
               }}
               className="flex aspect-[3/2]"
             >
@@ -90,6 +113,12 @@ export function Carousel() {
                   key={i}
                   onClick={() => setIndex(i)}
                   className="shrink-0"
+                  animate={{
+                    opacity: index === i ? 1 : 0.5,
+                    marginLeft: index === i ? "12%" : "0%",
+                    marginRight: index === i ? "12%" : "0%",
+                  }}
+                  whileHover={{ opacity: 1 }}
                 >
                   <img src={src} className="h-full object-cover aspect-[3/2]" />
                 </motion.button>
