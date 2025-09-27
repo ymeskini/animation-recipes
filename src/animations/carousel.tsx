@@ -11,6 +11,9 @@ const images = [
   "/images/carousel/6.jpeg",
 ];
 
+const collapsedAspectRatio = 1 / 3;
+const fullAspectRatio = 3 / 2;
+
 export function Carousel() {
   const [index, setIndex] = useState(0);
 
@@ -23,7 +26,7 @@ export function Carousel() {
               animate={{ x: `-${index * 100}%` }}
               // ease in a bezier curve found from open source
               // trying to mimic apple
-              className="flex "
+              className="flex"
             >
               {images.map((src, i) => (
                 <img key={i} src={src} className="aspect-[3/2] object-cover" />
@@ -59,6 +62,34 @@ export function Carousel() {
                 </motion.button>
               )}
             </AnimatePresence>
+          </div>
+
+          <div className="flex right-0 left-0 h-14 absolute bottom-6 justify-center inset-x-0 overflow-hidden w-full">
+            <motion.div
+              animate={{
+                x: `-${(index * 100 * (1 / 3))}%`,
+              }}
+              className="flex aspect-[3/2]"
+            >
+              {images.map((src, i) => {
+                const isImageSelected = i === index;
+
+                return (
+                  <motion.button
+                    onClick={() => setIndex(i)}
+                    className="shrink-0"
+                    animate={{
+                      aspectRatio: isImageSelected
+                        ? fullAspectRatio
+                        : collapsedAspectRatio,
+                    }}
+                    key={i}
+                  >
+                    <img src={src} className="h-full object-cover" />
+                  </motion.button>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
       </div>
