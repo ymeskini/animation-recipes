@@ -6,6 +6,7 @@ import Email from "./animations/email.tsx";
 import BookPage from "./animations/books.tsx";
 import { Header } from "./animations/header.tsx";
 import { Carousel } from "./animations/carousel.tsx";
+import ResizablePanel from "./animations/resizable-panel.tsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/books" element={<BookPage />} />
       <Route path="/header" element={<Header />} />
       <Route path="/carousel" element={<Carousel />} />
+      <Route path="/resizable-panel" element={<ResizablePanel />} />
     </Routes>
   );
 }

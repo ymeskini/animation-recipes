@@ -26,6 +26,11 @@ const routes = [
     title: "Carousel",
     description: "Interactive carousel component",
   },
+  {
+    to: "/resizable-panel",
+    title: "Resizable Panel",
+    description: "Interactive resizable panel component",
+  },
 ];
 
 export const Home = () => {
