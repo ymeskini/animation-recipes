@@ -31,6 +31,11 @@ const routes = [
     title: "Resizable Panel",
     description: "Interactive resizable panel component",
   },
+  {
+    to: "/calendar",
+    title: "Calendar",
+    description: "Interactive calendar component",
+  },
 ];
 
 export const Home = () => {

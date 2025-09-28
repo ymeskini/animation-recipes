@@ -73,6 +73,7 @@ export default function ResizablePanel() {
                       transition={{
                         ...transition,
                         duration: transition.duration / 2,
+                        delay: transition.duration / 2,
                       }}
                     >
                       <p className="p-8 text-sm text-zinc-400">
