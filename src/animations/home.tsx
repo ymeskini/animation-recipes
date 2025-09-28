@@ -36,6 +36,11 @@ const routes = [
     title: "Calendar",
     description: "Interactive calendar component",
   },
+  {
+    to: "/price",
+    title: "Price Plan Selection",
+    description: "Interactive price plan selection component",
+  },
 ];
 
 export const Home = () => {
