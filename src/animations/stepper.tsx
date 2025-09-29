@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { tailwindColors } from "../utils/tailwind.theme";
 
-export const Stepper = () => {
+export default function Stepper() {
   const [step, setStep] = useState(1);
 
   return (
@@ -44,7 +44,7 @@ export const Stepper = () => {
       </div>
     </div>
   );
-};
+}
 
 function Step({ step, currentStep }: { step: number; currentStep: number }) {
   const status =

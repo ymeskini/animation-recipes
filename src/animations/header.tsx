@@ -28,7 +28,7 @@ function useBoundedScroll(bound: number) {
   return { scrollYBounded, scrollYBoundedProgress };
 }
 
-export function Header() {
+export default function Header() {
   const { scrollYBoundedProgress } = useBoundedScroll(100);
   // const scrollYBoundedProgressThrottled = useTransform(
   //   scrollYBoundedProgress,

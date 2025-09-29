@@ -41,9 +41,14 @@ const routes = [
     title: "Price Plan Selection",
     description: "Interactive price plan selection component",
   },
+  {
+    to: "/components/switch",
+    title: "Components",
+    description: "Collection of animated UI components",
+  },
 ];
 
-export const Home = () => {
+export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto">
@@ -67,4 +72,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
+}

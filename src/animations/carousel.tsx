@@ -53,7 +53,7 @@ const ButtonControls = ({
   </>
 );
 
-export function Carousel() {
+export default function Carousel() {
   const [index, setIndex] = useState(0);
 
   useKey(
