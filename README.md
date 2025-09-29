@@ -22,6 +22,7 @@ For example in our `src/animations/stepper.tsx` example in the parent element we
 ```
 
 And in the children we can define the variants (all children will be aware if the animate state changes from the parent):
+
 ```typescript
 variants={{
   active: {
@@ -38,30 +39,36 @@ variants={{
 ```
 
 ### Shared Transitions
+
 When we have multiple animations running in sequence we want them to be synchronized.
 To do so we can use the following component so each child will share the same transition.
 
 ```typescript
 <MotionConfig transition={{ duration: 0.7, ease: [0.32, 0.75, 0, 1] }}>
-{/* children */}
+  {/* children */}
 </MotionConfig>
 ```
 
 It's still possible to override the transition in each child if needed.
 
 ### Exit Animations
+
 One of the main features of Motion is the exit animation.
 To do so we need to wrap the component with `AnimatePresence` and add the exit property to the motion component.
+
 ```typescript
 <AnimatePresence initial={false}>
   <motion.div exit={{ opacity: 0 }} />
 </AnimatePresence>
 ```
+
 Most of the time we don't want the animation to run on the first render so we set `initial={false}` on the `AnimatePresence` component.
 Make sure each child has a unique key so Motion can track them.
 
 ### Shared Layout Animation
+
 When moving an element from one place to another we want the animation to be smooth.
 `layoutId` prop can be used to link two elements together.
+In the book example we pass: `layoutId={`book-cover-${book.isbn}`}` to both of selected and unselected book cover. So when the selected book changes the cover will animate to the new position.
 
 cf. `src/animations/books.tsx` example.
