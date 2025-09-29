@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, MotionConfig } from "motion/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type BookSelection = Book & { selected?: boolean };
@@ -71,6 +71,12 @@ function BookGrid({ books, handleSelectBook, ...delegated }: BookGridProps) {
   );
 }
 
+const transition = {
+  type: "spring",
+  stiffness: 400,
+  damping: 60,
+} as const;
+
 function ReadingList({
   books,
   handleRemoveBook,
@@ -79,7 +85,7 @@ function ReadingList({
   handleRemoveBook: (book: BookSelection) => void;
 }) {
   return (
-    <>
+    <MotionConfig transition={transition}>
       <div className="w-[200px] p-4 bg-gray-950 text-white">
         <h2 className="mb-4 pb-2 text-center border-b-4 border-dotted border-gray-600 animate-[fadeIn_500ms_both] delay-200">
           Reading List
@@ -94,21 +100,11 @@ function ReadingList({
                   src={book.coverSrc}
                   draggable={false}
                   className="block aspect-[7.25/11] object-cover rounded shadow-[0px_-22px_16px_-16px_rgba(0,0,0,0.4)] will-change-transform"
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 60,
-                  }}
                 />
                 <motion.button
                   layout="position"
                   className="absolute top-1 right-1 bg-black/40 text-white border-none w-10 h-10 p-0 flex justify-center items-center rounded backdrop-blur-sm cursor-pointer animate-[fadeIn_500ms_200ms_both]"
                   onClick={() => handleRemoveBook(book)}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 60,
-                  }}
                 >
                   <XMarkIcon />
                   <span className="sr-only">Remove {book.name}</span>
@@ -118,7 +114,7 @@ function ReadingList({
           })}
         </ol>
       </div>
-    </>
+    </MotionConfig>
   );
 }
 
