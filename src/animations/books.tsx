@@ -1,20 +1,11 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  type RefObject,
-  type DetailedHTMLProps,
-  type HTMLAttributes,
-} from "react";
+import { useState, type DetailedHTMLProps, type HTMLAttributes } from "react";
 import { motion, MotionConfig } from "motion/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type BookSelection = Book & { selected?: boolean };
-type BookRefs = RefObject<Record<string, HTMLButtonElement | null>>;
 
 function BookPage() {
   const [books, setBooks] = useState<BookSelection[]>(DATA);
-  const bookRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   function toggleBook(toggledBook: BookSelection) {
     const nextBooks = books.filter((book) => book.isbn !== toggledBook.isbn);
@@ -36,14 +27,9 @@ function BookPage() {
         className="flex-1"
         books={unselectedBooks}
         handleSelectBook={toggleBook}
-        bookRefs={bookRefs}
       />
       {selectedBooks.length > 0 && (
-        <ReadingList
-          books={selectedBooks}
-          handleRemoveBook={toggleBook}
-          bookRefs={bookRefs}
-        />
+        <ReadingList books={selectedBooks} handleRemoveBook={toggleBook} />
       )}
     </div>
   );
@@ -55,26 +41,15 @@ interface BookGridProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> {
   books: BookSelection[];
   handleSelectBook: (book: BookSelection) => void;
-  bookRefs?: BookRefs;
 }
 
-function BookGrid({
-  books,
-  handleSelectBook,
-  bookRefs,
-  ...delegated
-}: BookGridProps) {
+function BookGrid({ books, handleSelectBook, ...delegated }: BookGridProps) {
   return (
     <section {...delegated}>
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(70px,1fr))] content-start gap-2 p-4 rounded-lg min-h-full bg-white list-none">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] content-start gap-2 p-4 rounded-lg min-h-full bg-white list-none">
         {books.map((book) => (
           <li key={book.isbn}>
             <button
-              ref={(el) => {
-                if (bookRefs) {
-                  bookRefs.current[book.isbn] = el;
-                }
-              }}
               className="relative block bg-transparent border-none p-0 cursor-pointer aspect-[7.25/11] outline-offset-2 focus-visible:brightness-120"
               onClick={() => handleSelectBook(book)}
             >
@@ -99,94 +74,73 @@ const transition = {
   damping: 60,
 } as const;
 
-const SelectedBook = ({
-  handleRemoveBook,
-  book,
-  reverseBookIndex,
-  bookRefs,
-}: {
-  book: BookSelection;
-  handleRemoveBook: (book: BookSelection) => void;
-  reverseBookIndex: number;
-  bookRefs: BookRefs;
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      buttonRef.current.focus();
-    }
-  }, []);
-
-  return (
-    <motion.li
-      whileHover={{
-        height: 100,
-      }}
-      key={book.isbn}
-      animate={{
-        height: isFocused ? 100 : Math.max(50 - reverseBookIndex * 5, 10),
-      }}
-      className="relative"
-    >
-      <motion.img
-        layoutId={`book-cover-${book.isbn}`}
-        alt={book.name}
-        src={book.coverSrc}
-        draggable={false}
-        className="block aspect-[7.25/11] object-cover rounded shadow-[0px_-22px_16px_-16px_rgba(0,0,0,0.4)] will-change-transform"
-      />
-      <motion.button
-        ref={buttonRef}
-        layout="position"
-        className="absolute top-1 right-1 bg-black/40 text-white border-none w-10 h-10 p-0 flex justify-center items-center rounded backdrop-blur-sm cursor-pointer animate-[fadeIn_500ms_200ms_both]"
-        onClick={() => {
-          handleRemoveBook(book);
-          setTimeout(() => {
-            const bookButton = bookRefs.current[book.isbn];
-            if (bookButton) {
-              bookButton.focus();
-            }
-          }, transition.stiffness);
-        }}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      >
-        <XMarkIcon />
-        <span className="sr-only">Remove {book.name}</span>
-      </motion.button>
-    </motion.li>
-  );
-};
-
 function ReadingList({
   books,
   handleRemoveBook,
-  bookRefs,
 }: {
   books: BookSelection[];
   handleRemoveBook: (book: BookSelection) => void;
-  bookRefs: RefObject<Record<string, HTMLButtonElement | null>>;
 }) {
+  const [highlightedIndex, setHighlightedIndex] = useState<null | number>(null);
+
   return (
     <MotionConfig transition={transition}>
-      <div className="w-[200px] p-4 bg-gray-950 text-white">
+      <div
+        className="w-[300px] p-4 bg-gray-950 text-white"
+        onMouseLeave={() => {
+          setHighlightedIndex(null);
+        }}
+        onBlur={() => {
+          setHighlightedIndex(null);
+        }}
+      >
         <h2 className="mb-4 pb-2 text-center border-b-4 border-dotted border-gray-600 animate-[fadeIn_500ms_both] delay-200">
           Reading List
         </h2>
         <ol>
           {books.map((book, index) => {
             const reverseBookIndex = books.length - index - 1;
+            let height = Math.max(50 - reverseBookIndex * 5, 10);
+
+            if (index === highlightedIndex) {
+              height = 100;
+            }
 
             return (
-              <SelectedBook
+              <motion.li
+                whileHover={{
+                  height: 100,
+                }}
                 key={book.isbn}
-                book={book}
-                reverseBookIndex={reverseBookIndex}
-                handleRemoveBook={handleRemoveBook}
-                bookRefs={bookRefs}
-              />
+                animate={{
+                  height: height,
+                }}
+                onMouseEnter={() => {
+                  setHighlightedIndex(index);
+                }}
+                className="relative"
+              >
+                <motion.img
+                  layoutId={`book-cover-${book.isbn}`}
+                  alt={book.name}
+                  src={book.coverSrc}
+                  draggable={false}
+                  className="block aspect-[7.25/11] object-cover rounded shadow-[0px_-22px_16px_-16px_rgba(0,0,0,0.4)] will-change-transform"
+                />
+                <motion.button
+                  layout="position"
+                  className="absolute top-1 right-1 bg-black/40 text-white border-none w-10 h-10 p-0 flex justify-center items-center rounded backdrop-blur-sm cursor-pointer animate-[fadeIn_500ms_200ms_both]"
+                  onClick={() => {
+                    handleRemoveBook(book);
+                  }}
+                  onFocus={() => {
+                    setHighlightedIndex(index);
+                  }}
+                >
+                  <XMarkIcon />
+                  <span className="sr-only">Remove {book.name}</span>
+                </motion.button>
+              </motion.li>
             );
           })}
         </ol>
