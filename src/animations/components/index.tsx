@@ -1,11 +1,14 @@
 import { Outlet, NavLink } from "react-router";
-import { cn } from "../utils/cn";
+import { cn } from "../../utils/cn";
 
 const components = [
   {
     id: "switch",
     name: "Switch",
-    description: "An animated toggle switch component",
+  },
+  {
+    id: "selector-group",
+    name: "Selector Group",
   },
 ];
 
@@ -45,7 +48,12 @@ export default function ComponentsLayout() {
     <div className="min-h-screen bg-white">
       <div className="flex h-screen">
         <ComponentSidebar />
-        <Outlet />
+        <div className="flex-1 p-8">
+          <div className="max-w-4xl">
+            <div className="mb-8"></div>
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );

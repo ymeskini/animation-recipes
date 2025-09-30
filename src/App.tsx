@@ -9,9 +9,11 @@ import Carousel from "./animations/carousel.tsx";
 import ResizablePanel from "./animations/resizable-panel.tsx";
 import Calendar from "./animations/calendar.tsx";
 import PlanSelection from "./animations/price.tsx";
-import ComponentsLayout from "./animations/ComponentsLayout.tsx";
-import Switch from "./animations/Switch.tsx";
 import Layout from "./Layout.tsx";
+
+import Components from "./animations/components/index.tsx";
+import SelectorGroup from "./animations/components/selector-group.tsx";
+import Switch from "./animations/components/switch.tsx";
 
 function App() {
   return (
@@ -26,8 +28,9 @@ function App() {
         <Route path="resizable-panel" element={<ResizablePanel />} />
         <Route path="calendar" element={<Calendar />} />
         <Route path="price" element={<PlanSelection />} />
-        <Route path="components" element={<ComponentsLayout />}>
+        <Route path="components" element={<Components />}>
           <Route path="switch" element={<Switch />} />
+          <Route path="selector-group" element={<SelectorGroup />} />
         </Route>
       </Route>
     </Routes>
