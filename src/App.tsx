@@ -14,6 +14,7 @@ import Layout from "./Layout.tsx";
 import Components from "./animations/components/index.tsx";
 import SelectorGroup from "./animations/components/selector-group.tsx";
 import Switch from "./animations/components/switch.tsx";
+import Slider from "./animations/components/slider.tsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="components" element={<Components />}>
           <Route path="switch" element={<Switch />} />
           <Route path="selector-group" element={<SelectorGroup />} />
+          <Route path="slider" element={<Slider />} />
         </Route>
       </Route>
     </Routes>

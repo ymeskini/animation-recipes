@@ -10,6 +10,10 @@ const components = [
     id: "selector-group",
     name: "Selector Group",
   },
+  {
+    id: "slider",
+    name: "Slider",
+  }
 ];
 
 function ComponentSidebar() {
