@@ -15,6 +15,7 @@ import Components from "./animations/components/index.tsx";
 import SelectorGroup from "./animations/components/selector-group.tsx";
 import Switch from "./animations/components/switch.tsx";
 import Slider from "./animations/components/slider.tsx";
+import Toast from "./animations/components/toast.tsx";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="switch" element={<Switch />} />
           <Route path="selector-group" element={<SelectorGroup />} />
           <Route path="slider" element={<Slider />} />
+          <Route path="toast" element={<Toast />} />
         </Route>
       </Route>
     </Routes>

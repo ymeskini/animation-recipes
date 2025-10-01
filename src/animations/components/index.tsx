@@ -13,7 +13,11 @@ const components = [
   {
     id: "slider",
     name: "Slider",
-  }
+  },
+  {
+    id: "toast",
+    name: "Toast",
+  },
 ];
 
 function ComponentSidebar() {
