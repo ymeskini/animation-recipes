@@ -26,6 +26,15 @@
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .animate-slide-and-color {
   animation:
     slide 750ms cubic-bezier(0.15, 0.75, 0.25, 1.05),

@@ -16,6 +16,8 @@ import SelectorGroup from "./animations/components/selector-group.tsx";
 import Switch from "./animations/components/switch.tsx";
 import Slider from "./animations/components/slider.tsx";
 import Toast from "./animations/components/toast.tsx";
+import Like from "./animations/components/like.tsx";
+import ShimmerButton from "./animations/components/shimmer-button.tsx";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
           <Route path="selector-group" element={<SelectorGroup />} />
           <Route path="slider" element={<Slider />} />
           <Route path="toast" element={<Toast />} />
+          <Route path="like" element={<Like />} />
+          <Route path="shimmer-button" element={<ShimmerButton />} />
         </Route>
       </Route>
     </Routes>

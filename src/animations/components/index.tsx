@@ -18,6 +18,14 @@ const components = [
     id: "toast",
     name: "Toast",
   },
+  {
+    id: "like",
+    name: "Like",
+  },
+  {
+    id: "shimmer-button",
+    name: "Shimmer Button",
+  },
 ];
 
 function ComponentSidebar() {
