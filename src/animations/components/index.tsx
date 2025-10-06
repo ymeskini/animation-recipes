@@ -30,6 +30,10 @@ const components = [
     id: "oscillate",
     name: "Oscillate",
   },
+  {
+    id: "twist-bar",
+    name: "Twist Bar",
+  }
 ];
 
 function ComponentSidebar() {

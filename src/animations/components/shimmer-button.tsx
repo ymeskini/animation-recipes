@@ -15,9 +15,10 @@ export default function ShimmerButton() {
       Buy Now
       <span
         className={cn(
-          "absolute inset-0 h-full w-full opacity-50 group-hover:translate-x-full",
+          "absolute inset-0 h-full w-full opacity-50",
           "bg-gradient-to-r from-transparent via-[hsl(180deg_100%_90%)] to-transparent",
-          "-translate-x-full transition-transform duration-1000"
+          // slide animation
+          "-translate-x-full transition-transform duration-1000 group-hover:translate-x-full"
         )}
       />
     </button>

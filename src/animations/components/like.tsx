@@ -32,12 +32,31 @@ export default function Like() {
         setParticles((prev) =>
           prev.filter((p) => !newParticles.find((np) => np.id === p.id))
         );
-      }, FADE_DURATION);
+      }, FADE_DURATION + 100);
     }
   };
 
   return (
     <div className="p-8 bg-black rounded w-full flex justify-center">
+      <style>{`
+        :root {
+          --fade-duration: ${FADE_DURATION}ms;
+          --particle-curve: cubic-bezier(0.2, 0.56, 0, 1);
+        }
+        @keyframes fadeToTransparent {
+          /* fade from the opacity value of an element which is 1 by default */
+          to {
+            opacity: 0;
+          }
+        }
+        @keyframes disperse {
+          /* v2 with dynamic values */
+          /* not really working with tailwind */
+          to {
+            transform: translate(var(--x), var(--y));
+          }
+        }
+      `}</style>
       <button
         onClick={handleClick}
         className={cn(
@@ -52,10 +71,13 @@ export default function Like() {
         {particles.map((particle) => (
           <span
             key={particle.id}
-            className={`absolute m-auto inset-0 w-3 h-3 rounded-full bg-white pointer-events-none animate-[fadeToTransparent_1000ms_cubic-bezier(0.56,0.15,0.13,0.75)_forwards,fromCenter_500ms_cubic-bezier(0.56,0.15,0.13,0.75)]`}
-            style={{
-              transform: `translate(${particle.x}px, ${particle.y}px)`,
-            }}
+            className={`absolute m-auto inset-0 w-3 h-3 rounded-full bg-white pointer-events-none [animation:fadeToTransparent_var(--fade-duration)_forwards,disperse_500ms_forwards_var(--particle-curve)]`}
+            style={
+              {
+                "--x": `${particle.x}px`,
+                "--y": `${particle.y}px`,
+              } as React.CSSProperties
+            }
           />
         ))}
       </button>

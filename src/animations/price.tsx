@@ -67,6 +67,15 @@ function PriceDisplay({ id, price }: { id: string; price: number }) {
 
   return (
     <div className="my-4 text-6xl font-bold text-center overflow-hidden">
+      <style>
+        {`
+          @keyframes colors {
+            from {
+              color: hsl(50deg 100% 50%);
+            }
+          };
+        `}
+      </style>
       <div key={id} className="animate-[slide_750ms_cubic-bezier(0.15,0.75,0.25,1.05),colors_1500ms]">
         {formattedPrice}
       </div>
