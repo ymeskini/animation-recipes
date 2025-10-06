@@ -33,6 +33,10 @@ const components = [
   {
     id: "twist-bar",
     name: "Twist Bar",
+  },
+  {
+    id: "bouncing-balls",
+    name: "Bouncing Balls",
   }
 ];
 

@@ -20,6 +20,7 @@ import Like from "./animations/components/like.tsx";
 import ShimmerButton from "./animations/components/shimmer-button.tsx";
 import Oscillate from "./animations/components/oscillate/index.tsx";
 import TwistBar from "./animations/components/twist-bar.tsx";
+import BouncingBalls from "./animations/components/bouncing-balls.tsx";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="shimmer-button" element={<ShimmerButton />} />
           <Route path="oscillate" element={<Oscillate />} />
           <Route path="twist-bar" element={<TwistBar />} />
+          <Route path="bouncing-balls" element={<BouncingBalls />} />
         </Route>
       </Route>
     </Routes>
