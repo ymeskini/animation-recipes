@@ -1,0 +1,33 @@
+@keyframes oscillate {
+  from {
+    transform: translateX(calc(var(--amount) * -1));
+  }
+  to {
+    transform: translateX(var(--amount));
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  border-radius: 12px;
+  background: hsl(210deg 15% 6%);
+}
+
+.ball {
+  background: hsl(50deg 100% 50%);
+  border-radius: 45%;
+  width: 64px;
+  height: 64px;
+  animation: oscillate 700ms ease-in-out alternate infinite;
+}
+
+.button {
+  padding: 16px;
+  margin-top: 24px;
+  background: white;
+}

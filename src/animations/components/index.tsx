@@ -26,6 +26,10 @@ const components = [
     id: "shimmer-button",
     name: "Shimmer Button",
   },
+  {
+    id: "oscillate",
+    name: "Oscillate",
+  },
 ];
 
 function ComponentSidebar() {

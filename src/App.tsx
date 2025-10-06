@@ -18,6 +18,7 @@ import Slider from "./animations/components/slider.tsx";
 import Toast from "./animations/components/toast.tsx";
 import Like from "./animations/components/like.tsx";
 import ShimmerButton from "./animations/components/shimmer-button.tsx";
+import Oscillate from "./animations/components/oscillate/index.tsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="toast" element={<Toast />} />
           <Route path="like" element={<Like />} />
           <Route path="shimmer-button" element={<ShimmerButton />} />
+          <Route path="oscillate" element={<Oscillate />} />
         </Route>
       </Route>
     </Routes>

@@ -4,10 +4,15 @@ import { cn } from "../../utils/cn";
 // need to match this with the animation duration in the CSS in particle span below
 const FADE_DURATION = 1000;
 
+const randomBetween = (from: number, to: number) => () =>
+  Math.floor(Math.random() * (to - from + 1)) + from;
+
+const random = randomBetween(-48, 48);
+
 export default function Like() {
   const [isLiked, setIsLiked] = useState(false);
   const [particles, setParticles] = useState<
-    Array<{ id: number; top: number; left: number }>
+    Array<{ id: number; x: number; y: number }>
   >([]);
 
   const handleClick = () => {
@@ -15,11 +20,10 @@ export default function Like() {
     setIsLiked(newLiked);
 
     if (newLiked) {
-      // create 5 particles with random positions included
-      const newParticles = Array.from({ length: 5 }, (_, i) => ({
+      const newParticles = Array.from({ length: 20 }, (_, i) => ({
         id: Date.now() + i,
-        top: Math.round(Math.random() * 100),
-        left: Math.round(Math.random() * 100),
+        x: random(),
+        y: random(),
       }));
 
       setParticles((prev) => [...prev, ...newParticles]);
@@ -48,10 +52,9 @@ export default function Like() {
         {particles.map((particle) => (
           <span
             key={particle.id}
-            className={`absolute w-3 h-3 rounded-full bg-white pointer-events-none animate-[1s_fadeOut_forwards] -translate-1/2`}
+            className={`absolute m-auto inset-0 w-3 h-3 rounded-full bg-white pointer-events-none animate-[fadeToTransparent_1000ms_cubic-bezier(0.56,0.15,0.13,0.75)_forwards,fromCenter_500ms_cubic-bezier(0.56,0.15,0.13,0.75)]`}
             style={{
-              top: `${particle.top}%`,
-              left: `${particle.left}%`,
+              transform: `translate(${particle.x}px, ${particle.y}px)`,
             }}
           />
         ))}

@@ -72,3 +72,33 @@ When moving an element from one place to another we want the animation to be smo
 In the book example we pass: `layoutId={`book-cover-${book.isbn}`}` to both of selected and unselected book cover. So when the selected book changes the cover will animate to the new position.
 
 cf. `src/animations/books.tsx` example.
+
+# Keyframes
+
+A trick with keyframes is omitting the `to` or `from` properties.
+## Fade
+```css
+@keyframes fadeFromOpaque {
+  from {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeToOpaque {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeFromTransparent {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeToTransparent {
+  to {
+    opacity: 0;
+  }
+}
+```
