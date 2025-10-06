@@ -17,7 +17,7 @@ export default function TwistBar() {
         }
       `}</style>
       <div
-        className="w-[100px] h-[30px] rounded bg-yellow-500 animate-[twist_0.5s_ease-in-out_infinite_alternate]"
+        className="w-[100px] h-[30px] rounded bg-yellow-500 animate-[twist_750ms_infinite_alternate_ease-in-out]"
         style={
           {
             "--rotation": `${rotation}deg`,
