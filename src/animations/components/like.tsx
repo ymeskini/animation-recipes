@@ -7,24 +7,49 @@ const FADE_DURATION = 1000;
 const randomBetween = (from: number, to: number) => () =>
   Math.floor(Math.random() * (to - from + 1)) + from;
 
-const random = randomBetween(-48, 48);
+const getRandomAngle = randomBetween(0, 360);
+const getRandomDistance = randomBetween(32, 64);
+
+const convertPolarToCartesian = (
+  angle: number,
+  distance: number
+): [number, number] => {
+  const angleInRadians = convertDegreesToRadians(angle);
+
+  const x = Math.cos(angleInRadians) * distance;
+  const y = Math.sin(angleInRadians) * distance;
+
+  return [x, y];
+};
+
+const convertDegreesToRadians = (angle: number): number =>
+  (angle * Math.PI) / 180;
+
+type Particle = {
+  id: number;
+  x: number;
+  y: number;
+};
 
 export default function Like() {
   const [isLiked, setIsLiked] = useState(false);
-  const [particles, setParticles] = useState<
-    Array<{ id: number; x: number; y: number }>
-  >([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   const handleClick = () => {
     const newLiked = !isLiked;
     setIsLiked(newLiked);
 
     if (newLiked) {
-      const newParticles = Array.from({ length: 20 }, (_, i) => ({
-        id: Date.now() + i,
-        x: random(),
-        y: random(),
-      }));
+      const newParticles = Array.from({ length: 20 }, (_, i) => {
+        const angle = getRandomAngle();
+        const distance = getRandomDistance();
+        const [x, y] = convertPolarToCartesian(angle, distance);
+        return {
+          x,
+          y,
+          id: Date.now() + i,
+        };
+      });
 
       setParticles((prev) => [...prev, ...newParticles]);
 
@@ -49,13 +74,24 @@ export default function Like() {
             opacity: 0;
           }
         }
+
+        /* v2 with dynamic values */
         @keyframes disperse {
-          /* v2 with dynamic values */
-          /* not really working with tailwind */
           to {
             transform: translate(var(--x), var(--y));
           }
         }
+
+        /* v3 with angle and distance with css functions */
+        // we'll stay with v2 with javascript calculating the x and y values
+        // @keyframes disperse {
+        //   to {
+        //     transform: translate(
+        //       calc(cos(var(--angle)) * var(--distance)),
+        //       calc(sin(var(--angle)) * var(--distance))
+        //     );
+        //   }
+        // }
       `}</style>
       <button
         onClick={handleClick}
