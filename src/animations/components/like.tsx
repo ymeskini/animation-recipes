@@ -44,10 +44,6 @@ export default function Like() {
   return (
     <div className="p-8 bg-black rounded w-full flex justify-center">
       <style>{`
-        :root {
-          --fade-duration: ${FADE_DURATION}ms;
-          --particle-curve: cubic-bezier(0.2, 0.56, 0, 1);
-        }
         @keyframes fadeToTransparent {
           /* fade from the opacity value of an element which is 1 by default */
           to {
@@ -74,6 +70,12 @@ export default function Like() {
         // }
       `}</style>
       <button
+        style={
+          {
+            "--fade-duration": `${FADE_DURATION}ms`,
+            "--particle-curve": "cubic-bezier(0.2, 0.56, 0, 1)",
+          } as React.CSSProperties
+        }
         onClick={handleClick}
         className={cn(
           "relative p-4 bg-transparent border-none rounded-full cursor-pointer transition-colors hover:bg-white/15",

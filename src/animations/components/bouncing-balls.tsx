@@ -3,9 +3,6 @@ export default function BouncingBalls() {
     <>
       <style>
         {`
-          :root {
-            --bounce-bezier: cubic-bezier(0.15, 0.68, 0.65, 1.00);
-          }
           @keyframes bounce {
             to {
               transform: translateY(calc(var(--distance) * -1));
@@ -13,8 +10,14 @@ export default function BouncingBalls() {
           }
         `}
       </style>
-
-      <div className="grid place-content-center p-32 bg-black">
+      <div
+        style={
+          {
+            "--bounce-bezier": "cubic-bezier(0.15, 0.68, 0.65, 1.00)",
+          } as React.CSSProperties
+        }
+        className="grid place-content-center p-32 bg-black"
+      >
         <div className="relative flex gap-4 px-4 border-b-4 border-white rounded">
           {[
             { distance: "30px", duration: "500ms" },
