@@ -37,7 +37,11 @@ const components = [
   {
     id: "bouncing-balls",
     name: "Bouncing Balls",
-  }
+  },
+  {
+    id: "sparkle",
+    name: "Cursor Sparkle",
+  },
 ];
 
 function ComponentSidebar() {

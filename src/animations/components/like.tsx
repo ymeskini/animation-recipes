@@ -1,29 +1,9 @@
 import { useState } from "react";
 import { cn } from "../../utils/cn";
+import { convertPolarToCartesian, random } from "../../utils/math";
 
 // need to match this with the animation duration in the CSS in particle span below
 const FADE_DURATION = 1000;
-
-const randomBetween = (from: number, to: number) => () =>
-  Math.floor(Math.random() * (to - from + 1)) + from;
-
-const getRandomAngle = randomBetween(0, 360);
-const getRandomDistance = randomBetween(32, 64);
-
-const convertPolarToCartesian = (
-  angle: number,
-  distance: number
-): [number, number] => {
-  const angleInRadians = convertDegreesToRadians(angle);
-
-  const x = Math.cos(angleInRadians) * distance;
-  const y = Math.sin(angleInRadians) * distance;
-
-  return [x, y];
-};
-
-const convertDegreesToRadians = (angle: number): number =>
-  (angle * Math.PI) / 180;
 
 type Particle = {
   id: number;
@@ -41,8 +21,8 @@ export default function Like() {
 
     if (newLiked) {
       const newParticles = Array.from({ length: 20 }, (_, i) => {
-        const angle = getRandomAngle();
-        const distance = getRandomDistance();
+        const angle = random(0, 360);
+        const distance = random(32, 64);
         const [x, y] = convertPolarToCartesian(angle, distance);
         return {
           x,

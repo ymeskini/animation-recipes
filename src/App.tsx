@@ -21,6 +21,7 @@ import ShimmerButton from "./animations/components/shimmer-button.tsx";
 import Oscillate from "./animations/components/oscillate/index.tsx";
 import TwistBar from "./animations/components/twist-bar.tsx";
 import BouncingBalls from "./animations/components/bouncing-balls.tsx";
+import CursorSparkle from "./animations/components/sparkle.tsx";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="oscillate" element={<Oscillate />} />
           <Route path="twist-bar" element={<TwistBar />} />
           <Route path="bouncing-balls" element={<BouncingBalls />} />
+          <Route path="sparkle" element={<CursorSparkle />} />
         </Route>
       </Route>
     </Routes>
