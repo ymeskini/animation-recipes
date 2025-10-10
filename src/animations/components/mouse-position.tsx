@@ -10,11 +10,14 @@ export default function MousePosition() {
     const x = event.clientX;
     const y = event.clientY;
 
+    // we want a percentage value between 0 and 100
+    // we pass the value, min and max of input range
+    // and min and max of output range
     const xAsPercentage = Math.round(
-      normalize(x, 0, window.innerWidth, 0, 100)
+      normalize(x, [0, window.innerWidth], [0, 100])
     );
     const yAsPercentage = Math.round(
-      normalize(y, 0, window.innerHeight, 0, 100)
+      normalize(y, [0, window.innerHeight], [0, 100])
     );
 
     setMouseX(xAsPercentage);

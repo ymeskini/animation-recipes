@@ -15,8 +15,6 @@ type Particle = {
   y: number;
 };
 
-
-
 export default function Like() {
   const [isLiked, setIsLiked] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
@@ -29,12 +27,9 @@ export default function Like() {
       const newParticles = Array.from(
         { length: NUM_OF_PARTICLES },
         (_, index) => {
-          // Divide the 360° field into equally-sliced wedges,
-          // and grab N wedges, where N is the particle’s index.
-          // Then, adjust the angle by a random amount specified
-          // by JITTER.
-          // this is linear interpolation
-          const angle = normalize(index, 0, NUM_OF_PARTICLES, 0, 360) + random(-JITTER, JITTER);
+          const angle =
+            normalize(index, [0, NUM_OF_PARTICLES], [0, 360]) +
+            random(-JITTER, JITTER);
           const distance = random(40, 50);
           const [x, y] = convertPolarToCartesian(angle, distance);
           return {
