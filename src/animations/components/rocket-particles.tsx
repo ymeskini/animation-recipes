@@ -12,7 +12,7 @@ const FADE_DURATION = 500;
 const FADE_DELAY = 500;
 
 type Particle = {
-  id: number;
+  id: string;
   color: string;
   angle: number;
   distance: number;
@@ -24,6 +24,7 @@ const RocketParticles = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
+
     const interval = setInterval(() => {
       const distance = random(45, 80);
       const angle = random(90 - 30, 90 + 30);
@@ -33,19 +34,22 @@ const RocketParticles = () => {
         distance,
         x,
         y,
-        id: Date.now(),
+        id: crypto.randomUUID(),
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
       };
 
       setParticles((prev) => [...prev, newParticle]);
 
       // Remove particle after animation completes
-      const timeout = setTimeout(() => {
+      setTimeout(() => {
         setParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
-        clearTimeout(timeout);
       }, 2000);
+
     }, 50);
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
