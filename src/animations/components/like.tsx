@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { cn } from "../../utils/cn";
-import { convertPolarToCartesian, random } from "../../utils/math";
+import { convertPolarToCartesian, normalize, random } from "../../utils/math";
 
 // need to match this with the animation duration in the CSS in particle span below
 const FADE_DURATION = 1000;
+// `JITTER` is the amount of variance allowed for each angle.
+// Tweak this value to control how orderly/chaotic the animation appears.
+const JITTER = 40;
+const NUM_OF_PARTICLES = 20;
 
 type Particle = {
-  id: number;
+  id: string;
   x: number;
   y: number;
 };
+
+
 
 export default function Like() {
   const [isLiked, setIsLiked] = useState(false);
@@ -20,16 +26,24 @@ export default function Like() {
     setIsLiked(newLiked);
 
     if (newLiked) {
-      const newParticles = Array.from({ length: 20 }, (_, i) => {
-        const angle = random(0, 360);
-        const distance = random(32, 64);
-        const [x, y] = convertPolarToCartesian(angle, distance);
-        return {
-          x,
-          y,
-          id: Date.now() + i,
-        };
-      });
+      const newParticles = Array.from(
+        { length: NUM_OF_PARTICLES },
+        (_, index) => {
+          // Divide the 360° field into equally-sliced wedges,
+          // and grab N wedges, where N is the particle’s index.
+          // Then, adjust the angle by a random amount specified
+          // by JITTER.
+          // this is linear interpolation
+          const angle = normalize(index, 0, NUM_OF_PARTICLES, 0, 360) + random(-JITTER, JITTER);
+          const distance = random(40, 50);
+          const [x, y] = convertPolarToCartesian(angle, distance);
+          return {
+            x,
+            y,
+            id: crypto.randomUUID(),
+          };
+        }
+      );
 
       setParticles((prev) => [...prev, ...newParticles]);
 
