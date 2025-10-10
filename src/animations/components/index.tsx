@@ -45,6 +45,10 @@ const components = [
   {
     id: "rocket-particles",
     name: "Rocket",
+  },
+  {
+    id: "mouse-position",
+    name: "Mouse Position",
   }
 ];
 
