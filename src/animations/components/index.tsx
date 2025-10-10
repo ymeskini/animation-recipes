@@ -42,6 +42,10 @@ const components = [
     id: "sparkle",
     name: "Cursor Sparkle",
   },
+  {
+    id: "rocket-particles",
+    name: "Rocket",
+  }
 ];
 
 function ComponentSidebar() {
