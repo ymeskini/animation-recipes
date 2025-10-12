@@ -49,6 +49,10 @@ const components = [
   {
     id: "mouse-position",
     name: "Mouse Position",
+  },
+  {
+    id: "reveal",
+    name: "Reveal",
   }
 ];
 

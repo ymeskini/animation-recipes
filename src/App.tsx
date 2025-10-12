@@ -24,6 +24,7 @@ import BouncingBalls from "./animations/components/bouncing-balls.tsx";
 import CursorSparkle from "./animations/components/sparkle.tsx";
 import RocketParticles from "./animations/components/rocket-particles.tsx";
 import MousePosition from "./animations/components/mouse-position.tsx";
+import Reveal from "./animations/components/reveal.tsx";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="sparkle" element={<CursorSparkle />} />
           <Route path="rocket-particles" element={<RocketParticles />} />
           <Route path="mouse-position" element={<MousePosition />} />
+          <Route path="reveal" element={<Reveal />} />
         </Route>
       </Route>
     </Routes>
