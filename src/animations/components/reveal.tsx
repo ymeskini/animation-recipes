@@ -1,4 +1,9 @@
-import { useMotionValue, useTransform, motion } from "motion/react";
+import {
+  useMotionValue,
+  useTransform,
+  motion,
+  useMotionTemplate,
+} from "motion/react";
 import { useState } from "react";
 
 export default function Reveal() {
@@ -15,12 +20,10 @@ export default function Reveal() {
   const boxHue = useTransform(sliderValue, [0, 50, 100], [0, 0, 45]);
   // bgLightness: stay at 6% for first 75%, then scale from 6% to 26% in final 25%
   const bgLightness = useTransform(sliderValue, [0, 75, 100], [6, 6, 26]);
-  const borderRadius = useTransform(radius, (val) => `${val}%`);
-  const backgroundColor = useTransform(
-    boxHue,
-    (val) => `hsl(${val}deg 100% 60%)`
-  );
-  const bgColor = useTransform(bgLightness, (val) => `hsl(210deg 15% ${val}%)`);
+
+  const borderRadius = useMotionTemplate`${radius}%`;
+  const backgroundColor = useMotionTemplate`hsl(${boxHue}deg 100% 60%)`;
+  const bgColor = useMotionTemplate`hsl(210deg 15% ${bgLightness}%)`;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.valueAsNumber;
