@@ -1,39 +1,48 @@
+import { useMotionValue, useTransform, motion } from "motion/react";
 import { useState } from "react";
-import { clamp } from "motion/react";
-import { normalize } from "../../utils/math";
 
 export default function Reveal() {
   const [value, setValue] = useState(0);
+  const sliderValue = useMotionValue(0);
+
+  // Transform calculations using useTransform
+  const skew = useTransform(sliderValue, [0, 100], [25, 0]);
+  const rotate = useTransform(sliderValue, [0, 100], [225, -45]);
+  const radius = useTransform(sliderValue, [0, 100], [50, 5]);
+  // scaleY: grow from 0.01 to 1 over the first half (0-50), then stay at 1
+  const scaleY = useTransform(sliderValue, [0, 50, 100], [0.01, 1, 1]);
+  // boxHue: stay at 0° for first half, then scale from 0° to 45° in second half
+  const boxHue = useTransform(sliderValue, [0, 50, 100], [0, 0, 45]);
+  // bgLightness: stay at 6% for first 75%, then scale from 6% to 26% in final 25%
+  const bgLightness = useTransform(sliderValue, [0, 75, 100], [6, 6, 26]);
+  const borderRadius = useTransform(radius, (val) => `${val}%`);
+  const backgroundColor = useTransform(
+    boxHue,
+    (val) => `hsl(${val}deg 100% 60%)`
+  );
+  const bgColor = useTransform(bgLightness, (val) => `hsl(210deg 15% ${val}%)`);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value));
+    const newValue = event.target.valueAsNumber;
+    setValue(newValue);
+    sliderValue.set(newValue);
   };
 
-  const skew = normalize(value, [0, 100], [25, 0]);
-  const rotate = normalize(value, [0, 100], [225, -45]);
-  const radius = normalize(value, [0, 100], [50, 5]);
-
-  const scaleY = clamp(0.01, 1, normalize(value, [0, 50], [0.01, 1]));
-  const boxHue = clamp(0, 45, normalize(value, [50, 100], [0, 45]));
-  const bgLightness = clamp(
-    6,
-    26,
-    value <= 75 ? 6 : normalize(value, [75, 100], [6, 26])
-  );
-
   return (
-    <div
-      className="relative h-72 w-full flex items-center justify-center transition-colors duration-300"
+    <motion.div
+      className="relative h-72 w-full flex items-center justify-center"
       style={{
-        backgroundColor: `hsl(210deg 15% ${bgLightness}%)`,
+        backgroundColor: bgColor,
       }}
     >
-      <div
+      <motion.div
         className="absolute w-[100px] h-[100px] mb-20"
         style={{
-          transform: `scaleY(${scaleY}) rotate(${rotate}deg) skewX(${skew}deg)`,
-          borderRadius: `${radius}%`,
-          backgroundColor: `hsl(${boxHue}deg 100% 60%)`,
+          skewX: skew,
+          rotate: rotate,
+          scaleY: scaleY,
+          borderRadius: borderRadius,
+          backgroundColor: backgroundColor,
         }}
       />
 
@@ -49,6 +58,6 @@ export default function Reveal() {
           className="w-full max-w-[300px] cursor-pointer"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
