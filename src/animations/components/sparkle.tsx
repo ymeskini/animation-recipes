@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { convertPolarToCartesian, random } from "../../utils/math";
+import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 
 const FADE_DURATION = 1000;
 const FADE_DELAY = 300;
@@ -15,8 +16,11 @@ type Particle = {
 
 const CursorSparkle = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    if (prefersReducedMotion) return;
+
     const x = event.clientX;
     const y = event.clientY;
 
@@ -40,7 +44,7 @@ const CursorSparkle = () => {
       setParticles((prev) =>
         prev.filter((p) => !newParticles.find((np) => np.id === p.id))
       );
-    }, FADE_DURATION + 100);
+    }, FADE_DURATION + FADE_DELAY + 200);
   };
 
   return (
@@ -61,7 +65,7 @@ const CursorSparkle = () => {
 
       <div
         onClick={handleClick}
-        className="min-h-96 bg-black cursor-[url(/cursor/cursor.svg),_auto] select-none"
+        className="min-h-96 bg-black cursor-[url(/cursor/cursor.svg),_auto] select-none active:cursor-[url(/cursor/cursor-active.svg),_auto] touch-none"
         style={
           {
             "--fade-duration": `${FADE_DURATION}ms`,

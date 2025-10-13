@@ -18,7 +18,8 @@ export default function ShimmerButton() {
           "absolute inset-0 h-full w-full opacity-50",
           "bg-gradient-to-r from-transparent via-[hsl(180deg_100%_90%)] to-transparent",
           // slide animation
-          "-translate-x-full transition-transform duration-1000 group-hover:translate-x-full"
+          "-translate-x-full transition-transform duration-1000 group-hover:translate-x-full",
+          "motion-reduce:hidden"
         )}
       />
     </button>

@@ -102,3 +102,14 @@ A trick with keyframes is omitting the `to` or `from` properties.
   }
 }
 ```
+
+# Accessibility
+
+Set `reducedMotion="user"` on `MotionConfig` to respect user preferences.
+
+For tailwind use `motion-safe` and `motion-reduce` variants. Motion safe is used when the user  has not requested reduced motion, and motion reduce is used when the user has requested reduced motion.
+eg. `motion-reduce:hidden` for `src/animations/components/shimmer-button.tsx`
+
+For a hook cf. https://www.joshwcomeau.com/snippets/react-hooks/use-prefers-reduced-motion/ cf. example of usage in `src/animations/components/sparkle.tsx`
+
+For reference motion has also its own hook: [useReducedMotion](https://motion.dev/docs/react-use-reduced-motion)
