@@ -2,17 +2,24 @@ import { useState } from "react";
 import { cn } from "../../utils/cn";
 import { convertPolarToCartesian, normalize, random } from "../../utils/math";
 
-// need to match this with the animation duration in the CSS in particle span below
-const FADE_DURATION = 1000;
-// `JITTER` is the amount of variance allowed for each angle.
-// Tweak this value to control how orderly/chaotic the animation appears.
-const JITTER = 40;
-const NUM_OF_PARTICLES = 20;
+const MIN_DISTANCE = 32;
+const MAX_DISTANCE = 64;
+const MIN_FADE_DURATION = 1000 - 500;
+const MAX_FADE_DURATION = 1000 + 500;
+const MAX_FADE_DELAY = 500;
+const MAX_FADE_ADJUST = 200;
+const NUM_OF_PARTICLES = 15;
 
 type Particle = {
   id: string;
   x: number;
   y: number;
+  fadeDuration: number;
+  fadeDelay: number;
+  popDuration: number;
+  size: number;
+  twinkleDuration: number;
+  twinkleAmount: number;
 };
 
 export default function Like() {
@@ -24,18 +31,35 @@ export default function Like() {
     setIsLiked(newLiked);
 
     if (newLiked) {
-      const newParticles = Array.from(
+      const newParticles = Array.from<Particle, Particle>(
         { length: NUM_OF_PARTICLES },
         (_, index) => {
           const angle =
-            normalize(index, [0, NUM_OF_PARTICLES], [0, 360]) +
-            random(-JITTER, JITTER);
-          const distance = random(40, 50);
+            normalize(index, [0, NUM_OF_PARTICLES], [0, 360]) + random(-40, 40);
+          const distance = random(MIN_DISTANCE, MAX_DISTANCE);
           const [x, y] = convertPolarToCartesian(angle, distance);
           return {
             x,
             y,
             id: crypto.randomUUID(),
+            fadeDelay:
+              normalize(
+                distance,
+                [MIN_DISTANCE, MAX_DISTANCE],
+                [0, MAX_FADE_DELAY]
+              ) + random(0, 200),
+            fadeDuration:
+              normalize(
+                distance,
+                [MIN_DISTANCE, MAX_DISTANCE],
+                [MIN_FADE_DURATION, MAX_FADE_DURATION]
+              ) + random(-200, 200),
+            popDuration:
+              normalize(distance, [MIN_DISTANCE, MAX_DISTANCE], [300, 700]) +
+              random(-200, 200),
+            size: random(9, 16),
+            twinkleDuration: random(150, 300),
+            twinkleAmount: random(0.5, 1),
           };
         }
       );
@@ -46,7 +70,7 @@ export default function Like() {
         setParticles((prev) =>
           prev.filter((p) => !newParticles.find((np) => np.id === p.id))
         );
-      }, FADE_DURATION + 100);
+      }, MAX_FADE_DURATION + MAX_FADE_DELAY + MAX_FADE_ADJUST + 200);
     }
   };
 
@@ -67,6 +91,15 @@ export default function Like() {
           }
         }
 
+        @keyframes twinkle {
+          from {
+            opacity: var(--twinkle-amount);
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
         /* v3 with angle and distance with css functions */
         // we'll stay with v2 with javascript calculating the x and y values
         // @keyframes disperse {
@@ -81,7 +114,6 @@ export default function Like() {
       <button
         style={
           {
-            "--fade-duration": `${FADE_DURATION}ms`,
             "--particle-curve": "cubic-bezier(0.2, 0.56, 0, 1)",
           } as React.CSSProperties
         }
@@ -98,11 +130,18 @@ export default function Like() {
         {particles.map((particle) => (
           <span
             key={particle.id}
-            className={`absolute m-auto inset-0 w-3 h-3 rounded-full bg-white pointer-events-none [animation:fadeToTransparent_var(--fade-duration)_forwards,disperse_500ms_forwards_var(--particle-curve)]`}
+            className={`absolute m-auto inset-0 rounded-full bg-white pointer-events-none [animation:twinkle_var(--twinkle-duration)_infinite_alternate_ease-in-out,_fadeToTransparent_var(--fade-duration)_var(--fade-delay)_forwards,disperse_var(--pop-duration)_forwards_var(--particle-curve)]`}
             style={
               {
                 "--x": `${particle.x}px`,
                 "--y": `${particle.y}px`,
+                "--fade-duration": `${particle.fadeDuration}ms`,
+                "--fade-delay": `${particle.fadeDelay}ms`,
+                "--pop-duration": `${particle.popDuration}ms`,
+                "--twinkle-duration": `${particle.twinkleDuration}ms`,
+                "--twinkle-amount": particle.twinkleAmount,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
               } as React.CSSProperties
             }
           />
