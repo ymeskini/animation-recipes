@@ -64,7 +64,10 @@ export default function Like() {
         }
       );
 
-      setParticles((prev) => [...prev, ...newParticles]);
+      // this delay is to wait for the circle "pop" animation to finish
+      setTimeout(() => {
+        setParticles((prev) => [...prev, ...newParticles]);
+      }, 150);
 
       setTimeout(() => {
         setParticles((prev) =>
@@ -84,7 +87,6 @@ export default function Like() {
           }
         }
 
-        /* v2 with dynamic values */
         @keyframes disperse {
           to {
             transform: translate(var(--x), var(--y));
@@ -100,16 +102,26 @@ export default function Like() {
           }
         }
 
-        /* v3 with angle and distance with css functions */
-        // we'll stay with v2 with javascript calculating the x and y values
-        // @keyframes disperse {
-        //   to {
-        //     transform: translate(
-        //       calc(cos(var(--angle)) * var(--distance)),
-        //       calc(sin(var(--angle)) * var(--distance))
-        //     );
-        //   }
-        // }
+
+        @keyframes fromShrunken {
+          from {
+            transform: scale(0);
+          }
+        }
+
+        @keyframes circleColorShift {
+          from {
+            background: hsl(350deg 100% 60%);
+          }
+        }
+
+        @keyframes fadeFromOpaque {
+          from {
+            opacity: 1;
+          }
+        }
+
+
       `}</style>
       <button
         style={
@@ -125,6 +137,13 @@ export default function Like() {
             : "[&_path]:hover:stroke-[oklch(0.65_0.3_19.41)]"
         )}
       >
+        <span
+          className={cn(
+            "absolute inset-0 bg-[hsl(270deg_100%_80%)] rounded-full opacity-0",
+            isLiked &&
+              "[animation:fromShrunken_150ms,circleColorShift_150ms,fadeFromOpaque_300ms_150ms_backwards]"
+          )}
+        />
         <HeartIcon />
         <span className="sr-only">Like this post</span>
         {particles.map((particle) => (
@@ -151,12 +170,12 @@ export default function Like() {
   );
 }
 
-const HeartIcon = () => (
+const HeartIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
     aria-hidden="true"
-    className="relative block w-12 h-12"
+    className={cn("relative block w-12 h-12", className)}
   >
     <path
       d="M3.68546 5.43796C8.61936 1.29159 11.8685 7.4309 12.0406 7.4309C12.2126 7.43091 15.4617 1.29159 20.3956 5.43796C26.8941 10.8991 13.5 21.8215 12.0406 21.8215C10.5811 21.8215 -2.81297 10.8991 3.68546 5.43796Z"
