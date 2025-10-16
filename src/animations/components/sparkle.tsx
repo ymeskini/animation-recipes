@@ -76,6 +76,7 @@ const CursorSparkle = () => {
       >
         {/* Hidden image preloader */}
         <img alt="" src="/cursor/wand-sparkle.svg" className="hidden" />
+        <img alt="" src="/cursor/cursor-active.svg" className="hidden" />
         {particles.map((particle) => (
           <img
             key={particle.id}
