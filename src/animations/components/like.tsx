@@ -94,16 +94,6 @@ export default function Like() {
           }
         }
 
-        @keyframes twinkle {
-          from {
-            opacity: var(--twinkle-amount);
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-
         @keyframes fromShrunken {
           from {
             transform: scale(0);
@@ -123,6 +113,28 @@ export default function Like() {
         }
 
 
+        @keyframes hueRotate {
+          to {
+            filter: hue-rotate(var(--hue-rotation));
+          }
+        }
+
+        @keyframes colorShift {
+          from {
+            background: var(--from-color);
+          }
+        }
+
+
+        /* Twinkle effect for particles deprecated in favor of colorShift and hueRotate */
+        @keyframes twinkle {
+          from {
+            opacity: var(--twinkle-amount);
+          }
+          to {
+            opacity: 1;
+          }
+        }
       `}</style>
       <button
         style={
@@ -140,6 +152,11 @@ export default function Like() {
         )}
       >
         <span
+          style={
+            {
+              "--from-color": "hsl(350deg 100% 60%)",
+            } as React.CSSProperties
+          }
           className={cn(
             "absolute inset-0 bg-[hsl(270deg_100%_80%)] rounded-full opacity-0",
             isLiked &&
@@ -156,7 +173,7 @@ export default function Like() {
         {particles.map((particle) => (
           <span
             key={particle.id}
-            className={`absolute m-auto inset-0 rounded-full bg-white pointer-events-none [animation:twinkle_var(--twinkle-duration)_infinite_alternate_ease-in-out,_fadeToTransparent_var(--fade-duration)_var(--fade-delay)_forwards,disperse_var(--pop-duration)_forwards_var(--particle-curve)]`}
+            className="absolute m-auto inset-0 rounded-full bg-white pointer-events-none animate-[hueRotate_1000ms_linear_forwards,fadeToTransparent_var(--fade-duration)_var(--fade-delay)_forwards,disperse_var(--pop-duration)_forwards_var(--particle-curve)]"
             style={
               {
                 "--x": `${particle.x}px`,
@@ -168,6 +185,8 @@ export default function Like() {
                 "--twinkle-amount": particle.twinkleAmount,
                 width: `${particle.size}px`,
                 height: `${particle.size}px`,
+                backgroundColor: `hsl(${random(0, 359)}deg 90% 85%)`,
+                "--hue-rotation": "720deg",
               } as React.CSSProperties
             }
           />
