@@ -9,6 +9,7 @@ const MAX_FADE_DURATION = 1000 + 500;
 const MAX_FADE_DELAY = 500;
 const MAX_FADE_ADJUST = 200;
 const NUM_OF_PARTICLES = 15;
+const PARTICLE_DELAY = 150;
 
 type Particle = {
   id: string;
@@ -67,7 +68,7 @@ export default function Like() {
       // this delay is to wait for the circle "pop" animation to finish
       setTimeout(() => {
         setParticles((prev) => [...prev, ...newParticles]);
-      }, 150);
+      }, PARTICLE_DELAY);
 
       setTimeout(() => {
         setParticles((prev) =>
@@ -127,6 +128,7 @@ export default function Like() {
         style={
           {
             "--particle-curve": "cubic-bezier(0.2, 0.56, 0, 1)",
+            "--pop-circle-duration": `${PARTICLE_DELAY}ms`,
           } as React.CSSProperties
         }
         onClick={handleClick}
@@ -141,10 +143,15 @@ export default function Like() {
           className={cn(
             "absolute inset-0 bg-[hsl(270deg_100%_80%)] rounded-full opacity-0",
             isLiked &&
-              "[animation:fromShrunken_150ms,circleColorShift_150ms,fadeFromOpaque_300ms_150ms_backwards]"
+              "[animation:fromShrunken_var(--pop-circle-duration),circleColorShift_var(--pop-circle-duration),fadeFromOpaque_300ms_var(--pop-circle-duration)_backwards]"
           )}
         />
-        <HeartIcon />
+        <HeartIcon
+          className={cn(
+            isLiked &&
+              "animate-[fromShrunken_1500ms_var(--pop-circle-duration)_backwards_linear(0,0.04_1.1%,0.156_2.3%,1.015_8.5%,1.157_10.4%,1.217_12.4%,1.217_13.6%,1.193_15%,0.992_21.7%,0.964_23.5%,0.952_25.3%,0.957_27.9%,1.002_34.7%,1.01_38.2%,0.998_51%,1)]"
+          )}
+        />
         <span className="sr-only">Like this post</span>
         {particles.map((particle) => (
           <span
