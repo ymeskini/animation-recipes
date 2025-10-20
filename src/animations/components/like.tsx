@@ -151,18 +151,18 @@ export default function Like() {
             : "[&_path]:hover:stroke-[oklch(0.65_0.3_19.41)]"
         )}
       >
-        <span
-          style={
-            {
-              "--from-color": "hsl(350deg 100% 60%)",
-            } as React.CSSProperties
-          }
-          className={cn(
-            "absolute inset-0 bg-[hsl(270deg_100%_80%)] rounded-full opacity-0",
-            isLiked &&
-              "[animation:fromShrunken_var(--pop-circle-duration),circleColorShift_var(--pop-circle-duration),fadeFromOpaque_300ms_var(--pop-circle-duration)_backwards]"
-          )}
-        />
+        {isLiked && (
+          <span
+            style={
+              {
+                "--from-color": "hsl(350deg 100% 60%)",
+              } as React.CSSProperties
+            }
+            className={cn(
+              "absolute inset-0 bg-[hsl(270deg_100%_80%)] rounded-full opacity-0 [animation:fromShrunken_var(--pop-circle-duration),circleColorShift_var(--pop-circle-duration),fadeFromOpaque_300ms_var(--pop-circle-duration)_backwards]"
+            )}
+          />
+        )}
         <HeartIcon
           className={cn(
             isLiked &&
